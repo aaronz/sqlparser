@@ -100,4 +100,42 @@ public class CalciteParser {
 
         return sql.substring(prefix.length(), sql.length() - suffix.length());
     }
+
+    public static void descSortByPosition(List<SqlIdentifier> sqlIdentifiers){
+        Collections.sort(sqlIdentifiers, new Comparator<SqlIdentifier>() {
+            @Override
+            public int compare(SqlIdentifier o1, SqlIdentifier o2){
+                int linegap = o2.getParserPosition().getLineNum() - o1.getParserPosition().getLineNum();
+                if(linegap != 0){
+                    return linegap;
+                }
+                return o2.getParserPosition().getColumnNum() - o1.getParserPosition().getColumnNum();
+            }
+        });
+    }
+
+    public static Pair<Integer, Integer> getReplacePos(SqlNode node, String inputSql){
+        if(inputSql == null) {
+            return Pair.newPair(0, 0);
+        }
+        String[] lines = inputSql.split("\n");
+        SqlParserPos pos = node.getParserPosition();
+        int lineStart = pos.getLineNum();
+        int lineEnd = pos.getEndLineNum();
+        int columnStart = pos.getColumnNum() - 1;
+        int columnEnd = pos.getEndColumnNum();
+        for(int i = 0; i < lineStart - 1; i++){
+            columnStart += lines[i].length() + 1;
+        }
+        for(int i=0; i<lineEnd -1; i++){
+            columnEnd += lines[i].length() + 1;
+        }
+        Pair<Integer, Integer> startEndPos = getPosWithBracketsCompletion(inputSql, columnStart, columnEnd);
+        return startEndPos;
+    }
+
+
+    public static Pair<Integer, Integer> getPosWithBracketsCompletion(String inputSql, int left, int right){
+        
+    }
 }
