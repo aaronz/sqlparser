@@ -15,7 +15,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
-    <calcite.version>1.21.0</calcite.version>
+    <calcite.version>1.26.0</calcite.version>
     <avatica.version>1.12.0</avatica.version>
     <guava.version>14.0</guava.version>
   </properties>
